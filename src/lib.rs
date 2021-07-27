@@ -11,7 +11,8 @@
 //! * `"serde"`
 //! Disabled by default. Enable to `#[derive(Serialize, Deserialize)]` for `Either`
 //!
-
+#![cfg_attr(all(feature = "mesalock_sgx", not(target_env = "sgx")), no_std)] 
+#![cfg_attr(all(target_env = "sgx", target_vendor = "mesalock"), feature(rustc_private))]
 #![doc(html_root_url = "https://docs.rs/either/1/")]
 #![cfg_attr(all(not(test), not(feature = "use_std")), no_std)]
 #[cfg(all(not(test), not(feature = "use_std")))]
@@ -1144,3 +1145,4 @@ fn _unsized_std_propagation() {
     check_t!(::std::ffi::OsStr);
     check_t!(::std::ffi::CStr);
 }
+#[cfg(all(feature = "mesalock_sgx", not(target_env = "sgx")))] #[macro_use] extern crate sgx_tstd as std;
